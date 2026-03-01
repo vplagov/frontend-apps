@@ -1,0 +1,85 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Detect project changes to determine what to run
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      shared_ui: ${{ steps.filter.outputs.shared_ui }}
+      fuel_tracker_ui: ${{ steps.filter.outputs.fuel_tracker_ui }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shared_ui:
+              - 'projects/shared-ui/**'
+            fuel_tracker_ui:
+              - 'projects/fuel-tracker-ui/**'
+
+  # Linting and Prettier checks
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Lint All
+        run: npx eslint .
+
+  # Build shared library if it changed
+  build-shared:
+    needs: changes
+    if: ${{ needs.changes.outputs.shared_ui == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Build Shared UI
+        run: npx ng build shared-ui
+
+  # Build Fuel Tracker UI if it or shared library changed
+  build-fuel-tracker:
+    needs: [changes, build-shared]
+    # Always build if project itself changed, OR if shared UI changed (needs to rebuild to ensure compatibility)
+    if: |
+      always() &&
+      (needs.changes.outputs.fuel_tracker_ui == 'true' || needs.changes.outputs.shared_ui == 'true') &&
+      (needs.build-shared.result == 'success' || needs.build-shared.result == 'skipped')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Build Shared UI (Prerequisite)
+        if: ${{ needs.changes.outputs.shared_ui == 'true' }}
+        run: npx ng build shared-ui
+      - name: Build Fuel Tracker UI
+        run: npx ng build fuel-tracker-ui
+
+  # Deployment (Placeholder for future setup)
+  # This can be configured for GitHub Pages, S3, Firebase, etc.
+  deploy-fuel-tracker:
+    needs: [build-fuel-tracker]
+    if: github.ref == 'refs/heads/main' && needs.build-fuel-tracker.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Placeholder
+        run: echo "Deployment of fuel-tracker-ui would happen here."
