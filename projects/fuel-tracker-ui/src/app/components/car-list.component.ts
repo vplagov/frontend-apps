@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { CarResponse } from 'shared-ui';
 import { CommonModule } from '@angular/common';
@@ -53,7 +53,7 @@ export class CarListComponent implements OnInit {
   newCarName = '';
   loading = true;
 
-  constructor(private dataService: DataService) {}
+  private dataService = inject(DataService);
 
   ngOnInit() {
     this.loadCars();

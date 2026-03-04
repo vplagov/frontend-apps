@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
-  let routerSpy = { navigate: jasmine.createSpy('navigate') };
+  const routerSpy = { navigate: jasmine.createSpy('navigate') };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,9 +41,10 @@ describe('AuthService', () => {
   });
 
   it('should logout and clear localStorage', () => {
-    localStorage.setItem('user', JSON.stringify({ id: '1', username: 'test', token: 'token' }));
+    const userData = { id: '1', username: 'test', token: 'token' };
+    localStorage.setItem('user', JSON.stringify(userData));
     // Force refresh state (normally happens in constructor, but we want to be sure)
-    (service as any).currentUser.set(JSON.parse(localStorage.getItem('user')!));
+    service.currentUser.set(userData);
 
     service.logout();
 

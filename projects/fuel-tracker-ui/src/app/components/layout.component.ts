@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -41,5 +41,5 @@ import { ButtonComponent } from 'shared-ui';
   `
 })
 export class LayoutComponent {
-  constructor(public authService: AuthService) {}
+  public authService = inject(AuthService);
 }

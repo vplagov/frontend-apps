@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DataService } from '../services/data.service';
 import { CarResponse, FuelEntryResponse, FuelEntryRequest } from 'shared-ui';
@@ -21,23 +21,23 @@ import { FormsModule } from '@angular/forms';
         <h2 class="text-lg font-semibold mb-4">{{ editingId ? 'Edit Entry' : 'Add New Fuel Entry' }}</h2>
         <form (submit)="saveEntry()" class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label class="block text-sm font-medium mb-1">Date</label>
-            <input type="datetime-local" [(ngModel)]="newEntry.date" name="date" required
+            <label for="date" class="block text-sm font-medium mb-1">Date</label>
+            <input type="datetime-local" [(ngModel)]="newEntry.date" name="date" id="date" required
                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
           </div>
           <div>
-            <label class="block text-sm font-medium mb-1">Odometer</label>
-            <input type="text" [ngModel]="formatOdometer(newEntry.odometer)" (ngModelChange)="onOdometerChange($event)" name="odometer" required
+            <label for="odometer" class="block text-sm font-medium mb-1">Odometer</label>
+            <input type="text" [ngModel]="formatOdometer(newEntry.odometer)" (ngModelChange)="onOdometerChange($event)" name="odometer" id="odometer" required
                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
           </div>
           <div>
-            <label class="block text-sm font-medium mb-1">Liters</label>
-            <input type="number" step="0.01" [(ngModel)]="newEntry.liters" name="liters" required
+            <label for="liters" class="block text-sm font-medium mb-1">Liters</label>
+            <input type="number" step="0.01" [(ngModel)]="newEntry.liters" name="liters" id="liters" required
                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
           </div>
           <div>
-            <label class="block text-sm font-medium mb-1">Price / Liter</label>
-            <input type="number" step="0.01" [(ngModel)]="newEntry.pricePerLiter" name="pricePerLiter" required
+            <label for="pricePerLiter" class="block text-sm font-medium mb-1">Price / Liter</label>
+            <input type="number" step="0.01" [(ngModel)]="newEntry.pricePerLiter" name="pricePerLiter" id="pricePerLiter" required
                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
           </div>
           <div class="md:col-span-4 flex justify-end gap-2">
@@ -91,10 +91,8 @@ export class CarDetailComponent implements OnInit {
 
   newEntry: FuelEntryRequest = this.resetEntryForm();
 
-  constructor(
-    private route: ActivatedRoute,
-    private dataService: DataService
-  ) {}
+  private route = inject(ActivatedRoute);
+  private dataService = inject(DataService);
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

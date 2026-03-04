@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -9,8 +9,7 @@ import { CarRequest, CarResponse, FuelEntryRequest, FuelEntryResponse } from 'sh
 })
 export class DataService {
   private apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   // Cars
   getCars(): Observable<CarResponse[]> {

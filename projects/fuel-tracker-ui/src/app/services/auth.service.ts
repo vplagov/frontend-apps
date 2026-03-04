@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
@@ -10,9 +10,9 @@ import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from 'shar
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`;
+  private http = inject(HttpClient);
+  private router = inject(Router);
   currentUser = signal<LoginResponse | null>(this.getUserFromStorage());
-
-  constructor(private http: HttpClient, private router: Router) {}
 
   register(request: RegisterRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.apiUrl}/register`, request);
