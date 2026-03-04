@@ -28,6 +28,18 @@ To build everything:
 npx ng build shared-ui && npx ng build fuel-tracker-ui
 ```
 
+### Deploying to Vercel (Monorepo Setup)
+
+When connecting this repository to Vercel, follow these settings for `fuel-tracker-ui`:
+
+1.  **Framework Preset**: `Angular`
+2.  **Root Directory**: `projects/fuel-tracker-ui`
+3.  **Build Command**: `cd ../.. && npm install && npx ng build fuel-tracker-ui --configuration production`
+4.  **Output Directory**: `../../dist/fuel-tracker-ui/browser`
+5.  **Install Command**: `cd ../.. && npm install`
+
+> **Note**: Because this is a monorepo where the UI depends on a shared library at the root level, we navigate up to the root to run the build.
+
 ## CI/CD
 
 The project uses **GitHub Actions** for continuous integration and deployment.
