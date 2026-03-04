@@ -37,10 +37,40 @@ jobs:
       - name: Lint All
         run: npx eslint .
 
+  # Run unit tests for Fuel Tracker UI
+  test-fuel-tracker:
+    needs: changes
+    if: needs.changes.outputs.fuel_tracker_ui == 'true' || needs.changes.outputs.shared_ui == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Fuel Tracker UI Tests
+        run: npx ng test fuel-tracker-ui --watch=false --browsers=ChromeHeadless
+
+  # Run unit tests for Shared UI
+  test-shared:
+    needs: changes
+    if: needs.changes.outputs.shared_ui == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Run Shared UI Tests
+        run: npx ng test shared-ui --watch=false --browsers=ChromeHeadless
+
   # Build shared library if it changed
   build-shared:
-    needs: changes
-    if: ${{ needs.changes.outputs.shared_ui == 'true' }}
+    needs: [changes, test-shared]
+    if: ${{ needs.changes.outputs.shared_ui == 'true' && (needs.test-shared.result == 'success' || needs.test-shared.result == 'skipped') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,12 +84,13 @@ jobs:
 
   # Build Fuel Tracker UI if it or shared library changed
   build-fuel-tracker:
-    needs: [changes, build-shared]
+    needs: [changes, build-shared, test-fuel-tracker]
     # Always build if project itself changed, OR if shared UI changed (needs to rebuild to ensure compatibility)
     if: |
       always() &&
       (needs.changes.outputs.fuel_tracker_ui == 'true' || needs.changes.outputs.shared_ui == 'true') &&
-      (needs.build-shared.result == 'success' || needs.build-shared.result == 'skipped')
+      (needs.build-shared.result == 'success' || needs.build-shared.result == 'skipped') &&
+      (needs.test-fuel-tracker.result == 'success' || needs.test-fuel-tracker.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
