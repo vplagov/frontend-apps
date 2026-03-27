@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
         <form (submit)="saveEntry()" class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <label for="date" class="block text-sm font-medium mb-1">Date</label>
-            <input type="datetime-local" [(ngModel)]="newEntry.date" name="date" id="date" required
+            <input type="date" [(ngModel)]="newEntry.date" name="date" id="date" required
                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md">
           </div>
           <div>
@@ -65,7 +65,7 @@ import { FormsModule } from '@angular/forms';
           </thead>
           <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
             <tr *ngFor="let entry of entries">
-              <td class="px-6 py-4 whitespace-nowrap text-sm">{{ entry.date | date:'yyyy-MM-dd, HH:mm' }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">{{ entry.date | date:'yyyy-MM-dd' }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">{{ entry.odometer | number }} km</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">{{ entry.liters }} L</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm">{{ entry.pricePerLiter | currency:'EUR' }}</td>
@@ -111,10 +111,8 @@ export class CarDetailComponent implements OnInit {
   saveEntry() {
     if (!this.car) return;
 
-    // Convert local date to UTC
     const entryToSave: FuelEntryRequest = {
-      ...this.newEntry,
-      date: new Date(this.newEntry.date).toISOString()
+      ...this.newEntry
     };
 
     if (this.editingId) {
@@ -132,9 +130,8 @@ export class CarDetailComponent implements OnInit {
 
   startEdit(entry: FuelEntryResponse) {
     this.editingId = entry.id;
-    // Format date for datetime-local input (YYYY-MM-DDTHH:mm)
-    const date = new Date(entry.date);
-    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    // Format date for date input (YYYY-MM-DD)
+    const localDate = new Date(entry.date).toISOString().slice(0, 10);
 
     this.newEntry = {
       date: localDate,
@@ -167,8 +164,7 @@ export class CarDetailComponent implements OnInit {
   }
 
   private resetEntryForm(): FuelEntryRequest {
-    const now = new Date();
-    const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    const localDate = new Date().toISOString().slice(0, 10);
     return {
       date: localDate,
       odometer: null,
