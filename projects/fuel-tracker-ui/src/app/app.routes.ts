@@ -24,6 +24,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/car-detail.component').then(m => m.CarDetailComponent)
       },
       {
+        path: 'statistics',
+        loadComponent: () => import('./components/statistics.component').then(m => m.StatisticsComponent)
+      },
+      {
         path: '',
         redirectTo: 'cars',
         pathMatch: 'full'

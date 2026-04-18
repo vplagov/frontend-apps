@@ -44,3 +44,14 @@ export interface FuelEntryRequest {
   liters: number | null;
   pricePerLiter: number | null;
 }
+
+export interface AverageConsumptionResponse {
+  averageConsumption: number | null;
+  totalDistanceKm: number | null;
+  totalLiters: number | null;
+  calculatedFrom: string | null;
+  calculatedTo: string | null;
+  fullFillUpCount: number;
+  partialFillUpCount: number;
+  message: string | null;
+}

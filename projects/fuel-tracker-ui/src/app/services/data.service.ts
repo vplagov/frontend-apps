@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { CarRequest, CarResponse, FuelEntryRequest, FuelEntryResponse } from 'shared-ui';
+import { CarRequest, CarResponse, FuelEntryRequest, FuelEntryResponse, AverageConsumptionResponse } from 'shared-ui';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,11 @@ export class DataService {
 
   addCar(request: CarRequest): Observable<CarResponse> {
     return this.http.post<CarResponse>(`${this.apiUrl}/cars`, request);
+  }
+
+  // Statistics
+  getAverageConsumption(carId: string): Observable<AverageConsumptionResponse> {
+    return this.http.get<AverageConsumptionResponse>(`${this.apiUrl}/cars/${carId}/statistics/average-consumption`);
   }
 
   // Fuel Entries

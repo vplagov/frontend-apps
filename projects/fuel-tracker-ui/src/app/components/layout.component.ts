@@ -22,6 +22,10 @@ import { ButtonComponent } from 'shared-ui';
                    class="border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                   Cars
                 </a>
+                <a routerLink="/statistics" routerLinkActive="border-blue-500 text-gray-900 dark:text-white"
+                   class="border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                  Statistics
+                </a>
               </div>
             </div>
             <div class="flex items-center">
