@@ -104,7 +104,7 @@ export class StatisticsComponent implements OnInit {
   cars: CarResponse[] = [];
   selectedCarId: string | null = null;
   statistics: AverageConsumptionResponse | null = null;
-  loading: boolean = false;
+  loading = false;
 
   private dataService = inject(DataService);
 
