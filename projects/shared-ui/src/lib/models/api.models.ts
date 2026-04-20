@@ -21,6 +21,7 @@ export interface FuelEntryResponse {
   liters: number;
   pricePerLiter: number;
   totalCost: number;
+  isFullTank: boolean;
 }
 
 export interface RegisterRequest {
@@ -43,6 +44,7 @@ export interface FuelEntryRequest {
   odometer: number | null;
   liters: number | null;
   pricePerLiter: number | null;
+  isFullTank: boolean;
 }
 
 export interface AverageConsumptionResponse {

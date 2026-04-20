@@ -52,6 +52,14 @@ The pipeline is located in `.github/workflows/ci-cd.yml`. It uses `dorny/paths-f
 - `npx ng build shared-ui && npx ng build fuel-tracker-ui`: Builds the shared library and the main application.
 - `npx ng build <project-name>`: Builds a specific project.
 
+## Testing
+
+Note: `npm test` is not currently mapped in `package.json`. Use the Angular CLI to run tests:
+
+- `npx ng test fuel-tracker-ui --watch=false`: Runs tests for the main application once.
+- `npx ng test shared-ui --watch=false`: Runs tests for the shared library once.
+- `npx ng test <project-name>`: Runs tests in interactive watch mode.
+
 ## Important Note for Agents
 
 Always check `angular.json` to understand the workspace configuration and the root `tsconfig.json` for path mappings. When adding new shared elements, ensure they are exported via `projects/shared-ui/src/public-api.ts`.

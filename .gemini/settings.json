@@ -10,5 +10,8 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
     }
+  },
+  "context": { 
+    "fileName": "AGENTS.md" 
   }
 }
