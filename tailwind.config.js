@@ -2,9 +2,11 @@
 module.exports = {
   darkMode: 'media',
   content: [
-    "./projects/fuel-tracker-ui/src/**/*.{html,ts}",
-    "./projects/shared-ui/src/**/*.{html,ts}",
+    './projects/fuel-tracker-ui/src/**/*.{html,ts}',
+    './projects/rss-feed-ui/src/**/*.{html,ts}',
+    './projects/shared-ui/src/**/*.{html,ts}'
   ],
+
   theme: {
     extend: {},
   },

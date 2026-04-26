@@ -1,6 +1,7 @@
 export interface UserResponse {
   id: string;
   username: string;
+  email?: string;
 }
 
 export interface LoginResponse {
@@ -56,4 +57,25 @@ export interface AverageConsumptionResponse {
   fullFillUpCount: number;
   partialFillUpCount: number;
   message: string | null;
+}
+
+export interface RssPostResponse {
+  id: number;
+  blogId: number;
+  name: string;
+  url: string;
+  isRead: boolean;
+  dateAdded: string;
+}
+
+export interface RssBlogResponse {
+  id: number;
+  name: string;
+  feedUrl: string;
+  isSubscribed: boolean;
+}
+
+export interface RssNewBlogRequest {
+  name: string;
+  feedUrl: string;
 }

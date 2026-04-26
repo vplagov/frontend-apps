@@ -41,6 +41,12 @@
     },
     {
       "path": "./projects/shared-ui/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/rss-feed-ui/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/rss-feed-ui/tsconfig.spec.json"
     }
   ]
 }
