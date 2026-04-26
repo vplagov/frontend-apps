@@ -51,17 +51,17 @@ import { ButtonComponent } from 'shared-ui';
             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Add New RSS Feed</h3>
             <form (ngSubmit)="addBlog()">
               <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Name</label>
-                <input type="text" [(ngModel)]="newBlog.name" name="name" required 
+                <label for="blog-name" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Name</label>
+                <input id="blog-name" type="text" [(ngModel)]="newBlog.name" name="name" required
                        class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500"/>
               </div>
               <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">URL</label>
-                <input type="url" [(ngModel)]="newBlog.feedUrl" name="url" required 
+                <label for="blog-url" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">URL</label>
+                <input id="blog-url" type="url" [(ngModel)]="newBlog.feedUrl" name="url" required
                        class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500"/>
               </div>
               <div class="flex justify-end gap-2">
-                <button type="button" (click)="showAddModal = false" 
+                <button type="button" (click)="showAddModal = false"
                         class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
                 <lib-button type="submit">Add Blog</lib-button>
               </div>
