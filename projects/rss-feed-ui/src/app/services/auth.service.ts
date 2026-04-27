@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, catchError, finalize, of, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from 'shared-ui';
 
@@ -15,6 +15,7 @@ export class AuthService {
   private router = inject(Router);
 
   currentUser = signal<UserResponse | null>(this.getUserFromStorage());
+  isVerifying = signal(false);
 
   register(request: RegisterRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.apiUrl}/auth/register`, request);
@@ -48,5 +49,23 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  verifySession(): Observable<boolean> {
+    if (!this.getToken()) return of(false);
+
+    this.isVerifying.set(true);
+    return this.http.get<UserResponse>(`${environment.apiUrl}/auth/me`).pipe(
+      tap(() => {
+        this.isVerifying.set(false);
+      }),
+      catchError(() => {
+        this.logout();
+        this.isVerifying.set(false);
+        return of(false);
+      }),
+      finalize(() => this.isVerifying.set(false)),
+      map(() => true)
+    );
   }
 }

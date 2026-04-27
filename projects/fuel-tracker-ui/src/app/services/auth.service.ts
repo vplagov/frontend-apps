@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError, of, finalize, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from 'shared-ui';
 
@@ -13,6 +13,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   currentUser = signal<LoginResponse | null>(this.getUserFromStorage());
+  isVerifying = signal(false);
 
   register(request: RegisterRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.apiUrl}/register`, request);
@@ -34,6 +35,24 @@ export class AuthService {
 
   getToken(): string | null {
     return this.currentUser()?.token || null;
+  }
+
+  verifySession(): Observable<boolean> {
+    if (!this.getToken()) return of(false);
+
+    this.isVerifying.set(true);
+    return this.http.get<UserResponse>(`${environment.apiUrl}/auth/me`).pipe(
+      tap(() => {
+        this.isVerifying.set(false);
+      }),
+      catchError(() => {
+        this.logout();
+        this.isVerifying.set(false);
+        return of(false);
+      }),
+      finalize(() => this.isVerifying.set(false)),
+      map(() => true)
+    );
   }
 
   private setUser(user: LoginResponse): void {
