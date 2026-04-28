@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
-import { Observable, catchError, finalize, of, map } from 'rxjs';
+import { Observable, catchError, finalize, of, map, delay } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from 'shared-ui';
 
@@ -52,22 +52,22 @@ export class AuthService {
   }
 
   verifySession(): Observable<boolean> {
-    if (!this.getToken()) return of(false);
-
     this.isVerifying.set(true);
+
     return this.http.get<UserResponse>(`${environment.apiUrl}/auth/me`).pipe(
+      delay(1000), // Ensure loader is visible for at least 1s for nice UX
       tap((user) => {
         this.currentUser.set(user);
         localStorage.setItem('rss_user', JSON.stringify({ id: user.id, username: user.username }));
-        this.isVerifying.set(false);
       }),
       catchError(() => {
-        this.logout();
-        this.isVerifying.set(false);
+        if (this.getToken()) {
+          this.logout();
+        }
         return of(false);
       }),
       finalize(() => this.isVerifying.set(false)),
-      map(() => true)
+      map((res) => res !== false)
     );
   }
 }
