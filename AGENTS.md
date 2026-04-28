@@ -60,6 +60,16 @@ Note: `npm test` is not currently mapped in `package.json`. Use the Angular CLI 
 - `npx ng test shared-ui --watch=false`: Runs tests for the shared library once.
 - `npx ng test <project-name>`: Runs tests in interactive watch mode.
 
+## Linting
+
+Ensure that linting passes before finalizing any changes:
+
+- `npx ng lint fuel-tracker-ui`: Runs linting for the main application.
+- `npx ng lint rss-feed-ui`: Runs linting for the RSS feed application.
+- `npx ng lint shared-ui`: Runs linting for the shared library.
+
 ## Important Note for Agents
 
-Always check `angular.json` to understand the workspace configuration and the root `tsconfig.json` for path mappings. When adding new shared elements, ensure they are exported via `projects/shared-ui/src/public-api.ts`.
+Always check `angular.json` to understand the workspace configuration and the root `tsconfig.json` for path mappings. When adding new shared elements, ensure they are exported via `projects/shared-ui/src/public-api.ts`. 
+
+**CRITICAL:** Always ensure that both tests and linting pass (`npx ng lint <project>`) for any project you have modified before completing your task.
