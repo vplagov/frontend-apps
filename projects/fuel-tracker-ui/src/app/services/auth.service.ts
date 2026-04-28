@@ -42,7 +42,13 @@ export class AuthService {
 
     this.isVerifying.set(true);
     return this.http.get<UserResponse>(`${environment.apiUrl}/auth/me`).pipe(
-      tap(() => {
+      tap((user) => {
+        // Update currentUser with the latest data from the backend
+        // We need to keep the existing token as /auth/me doesn't return it
+        const current = this.currentUser();
+        if (current) {
+          this.setUser({ ...current, ...user });
+        }
         this.isVerifying.set(false);
       }),
       catchError(() => {

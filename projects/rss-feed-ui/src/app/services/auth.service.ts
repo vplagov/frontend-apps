@@ -56,7 +56,9 @@ export class AuthService {
 
     this.isVerifying.set(true);
     return this.http.get<UserResponse>(`${environment.apiUrl}/auth/me`).pipe(
-      tap(() => {
+      tap((user) => {
+        this.currentUser.set(user);
+        localStorage.setItem('rss_user', JSON.stringify({ id: user.id, username: user.username }));
         this.isVerifying.set(false);
       }),
       catchError(() => {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
@@ -14,7 +14,11 @@ import { WakingUpComponent } from 'shared-ui';
   `,
   styles: [],
 })
-export class App {
+export class App implements OnInit {
   title = 'rss-feed-ui';
   authService = inject(AuthService);
+
+  ngOnInit(): void {
+    this.authService.verifySession().subscribe();
+  }
 }
