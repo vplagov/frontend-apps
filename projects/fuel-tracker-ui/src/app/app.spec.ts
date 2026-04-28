@@ -3,13 +3,14 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { App } from './app';
 import { AuthService } from './services/auth.service';
 import { of } from 'rxjs';
+import { signal } from '@angular/core';
 
 describe('App', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
     authServiceSpy = jasmine.createSpyObj('AuthService', ['verifySession'], {
-      isVerifying: () => false
+      isVerifying: signal(false)
     });
     authServiceSpy.verifySession.and.returnValue(of(true));
 

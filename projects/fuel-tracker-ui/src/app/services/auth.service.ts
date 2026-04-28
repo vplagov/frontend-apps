@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, of, finalize, map } from 'rxjs';
+import { Observable, tap, catchError, of, finalize, map, delay } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest, LoginResponse, RegisterRequest, UserResponse } from 'shared-ui';
 
@@ -38,26 +38,26 @@ export class AuthService {
   }
 
   verifySession(): Observable<boolean> {
-    if (!this.getToken()) return of(false);
-
     this.isVerifying.set(true);
+    
     return this.http.get<UserResponse>(`${environment.apiUrl}/auth/me`).pipe(
+      delay(1000), // Ensure loader is visible for at least 1s for nice UX
       tap((user) => {
         // Update currentUser with the latest data from the backend
-        // We need to keep the existing token as /auth/me doesn't return it
         const current = this.currentUser();
         if (current) {
           this.setUser({ ...current, ...user });
         }
-        this.isVerifying.set(false);
       }),
       catchError(() => {
-        this.logout();
-        this.isVerifying.set(false);
+        // Only logout if we actually thought we were logged in
+        if (this.getToken()) {
+          this.logout();
+        }
         return of(false);
       }),
       finalize(() => this.isVerifying.set(false)),
-      map(() => true)
+      map((res) => res !== false)
     );
   }
 
