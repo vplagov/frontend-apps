@@ -26,19 +26,21 @@ describe('PostListComponent', () => {
 
   it('should load posts on init', () => {
     const dummyPosts = [
-      { id: 1, blogId: 1, name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
+      { id: 1, blogId: 1, blogName: 'Blog 1', name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
     ];
     spyOn(rssService, 'getUnreadPosts').and.returnValue(of(dummyPosts));
 
     component.ngOnInit();
+    fixture.detectChanges();
 
     expect(component.posts()).toEqual(dummyPosts);
     expect(rssService.getUnreadPosts).toHaveBeenCalled();
+    expect(fixture.nativeElement.textContent).toContain('Blog: Blog 1');
   });
 
   it('should mark post as read', () => {
     const dummyPosts = [
-      { id: 1, blogId: 1, name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
+      { id: 1, blogId: 1, blogName: 'Blog 1', name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
     ];
     component.posts.set(dummyPosts);
     spyOn(rssService, 'markPostAsRead').and.returnValue(of(undefined));
