@@ -38,6 +38,7 @@ import { ButtonComponent } from 'shared-ui';
                 {{ post.name }}
               </a>
             </div>
+            <p class="text-sm text-gray-600 dark:text-gray-300">Blog: {{ post.blogName }}</p>
           </div>
           
           <div class="mt-4">

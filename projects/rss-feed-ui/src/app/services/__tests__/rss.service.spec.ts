@@ -26,7 +26,7 @@ describe('RssService', () => {
 
   it('should fetch unread posts', () => {
     const dummyPosts = [
-      { id: 1, blogId: 1, name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
+      { id: 1, blogId: 1, blogName: 'Blog 1', name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
     ];
 
     service.getUnreadPosts().subscribe(posts => {

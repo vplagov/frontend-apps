@@ -62,6 +62,7 @@ export interface AverageConsumptionResponse {
 export interface RssPostResponse {
   id: number;
   blogId: number;
+  blogName: string;
   name: string;
   url: string;
   isRead: boolean;
