@@ -35,7 +35,7 @@ describe('PostListComponent', () => {
 
     expect(component.posts()).toEqual(dummyPosts);
     expect(rssService.getUnreadPosts).toHaveBeenCalled();
-    expect(fixture.nativeElement.textContent).toContain('Blog: Blog 1');
+    expect(fixture.nativeElement.textContent).toContain('Blog 1');
   });
 
   it('should mark post as read', () => {

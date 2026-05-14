@@ -9,44 +9,46 @@ import { ButtonComponent } from 'shared-ui';
   standalone: true,
   imports: [CommonModule, ButtonComponent],
   template: `
-    <div class="max-w-7xl mx-auto">
-      <div class="flex justify-between items-center gap-3 mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Recent Posts</h2>
-        <div class="shrink-0">
-           <lib-button (clicked)="fetchLatest()" variant="secondary" class="whitespace-nowrap">Fetch Latest</lib-button>
-        </div>
-      </div>
-      
-      <div *ngIf="posts().length === 0" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md text-center">
-        <p class="text-gray-500 dark:text-gray-400">No posts available</p>
-      </div>
-      
-      <div *ngIf="posts().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div *ngFor="let post of posts()" 
-             class="bg-white dark:bg-gray-800 rounded-lg shadow p-5 transition-colors duration-200 flex flex-col justify-between">
+    <div class="max-w-6xl mx-auto rss-fade-in">
+      <section class="rss-panel p-4 sm:p-6 mb-5 sm:mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <div class="mb-2 flex justify-between">
-              <span class="text-gray-500 dark:text-gray-400 text-xs">ID: {{ post.id }}</span>
-              <span class="text-gray-500 dark:text-gray-400 text-xs">{{ post.dateAdded | date:'yyyy-MM-dd' }}</span>
-            </div>
-            
-            <div class="mb-3">
-              <a [href]="post.url" 
-                 target="_blank" 
-                 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 break-words line-clamp-2">
-                {{ post.name }}
-              </a>
-            </div>
-            <p class="text-sm text-gray-600 dark:text-gray-300">Blog: {{ post.blogName }}</p>
+            <p class="text-xs tracking-[0.14em] uppercase text-slate-500 dark:text-slate-400">Unread feed</p>
+            <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight mt-1">Recent Posts</h2>
           </div>
-          
-          <div class="mt-4">
-            <lib-button (clicked)="markAsRead(post.id)" class="w-full">
+          <div class="[&>button]:!rounded-full [&>button]:!px-4 [&>button]:!py-2">
+            <lib-button (clicked)="fetchLatest()" variant="secondary" class="whitespace-nowrap">Fetch Latest</lib-button>
+          </div>
+        </div>
+      </section>
+
+      <div *ngIf="posts().length === 0" class="rss-panel p-10 text-center">
+        <p class="text-4xl mb-3">📰</p>
+        <p class="text-lg font-medium">No unread posts right now</p>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Run "Fetch Latest" to refresh your feed.</p>
+      </div>
+
+      <section *ngIf="posts().length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+        <article *ngFor="let post of posts()" class="rss-card p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+              <span class="rss-tag rounded-full px-2.5 py-1 text-xs">{{ post.dateAdded | date:'MMM d, y' }}</span>
+              <span class="rss-tag rounded-full px-2.5 py-1 text-xs">{{ post.blogName }}</span>
+              <span class="rss-tag rounded-full px-2.5 py-1 text-xs">#{{ post.id }}</span>
+            </div>
+
+            <a [href]="post.url" target="_blank" class="rss-link text-lg sm:text-xl leading-snug font-semibold break-words line-clamp-3">
+              {{ post.name }}
+            </a>
+          </div>
+
+          <div class="mt-5 [&>button]:!w-full [&>button]:!rounded-xl [&>button]:!py-2.5 [&>button]:!font-medium">
+            <lib-button (clicked)="markAsRead(post.id)">
               Mark as read
             </lib-button>
           </div>
-        </div>
-      </div>
+        </article>
+      </section>
     </div>
   `
 })
@@ -74,5 +76,4 @@ export class PostListComponent implements OnInit {
       setTimeout(() => this.loadPosts(), 2000);
     });
   }
-
 }

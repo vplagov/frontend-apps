@@ -10,52 +10,60 @@ import { ButtonComponent } from 'shared-ui';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, ButtonComponent],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-md w-full space-y-8">
-        <div>
-          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Create your account
-          </h2>
-        </div>
-        <form class="mt-8 space-y-6" (ngSubmit)="onSubmit()">
-          <div class="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label for="username" class="sr-only">Username</label>
-              <input id="username" name="username" type="text" required [(ngModel)]="username"
-                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm dark:bg-gray-800"
-                     placeholder="Username">
-            </div>
-            <div>
-              <label for="email" class="sr-only">Email</label>
-              <input id="email" name="email" type="email" required [(ngModel)]="email"
-                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm dark:bg-gray-800"
-                     placeholder="Email address">
-            </div>
-            <div>
-              <label for="password" class="sr-only">Password</label>
-              <input id="password" name="password" type="password" required [(ngModel)]="password"
-                     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm dark:bg-gray-800"
-                     placeholder="Password">
-            </div>
-          </div>
+    <div class="min-h-screen px-4 py-10 sm:px-6 flex items-center justify-center">
+      <section class="rss-panel w-full max-w-md p-6 sm:p-8 rss-fade-in">
+        <p class="text-xs tracking-[0.14em] uppercase text-slate-500 dark:text-slate-400">Get started</p>
+        <h2 class="mt-2 text-3xl font-semibold tracking-tight">Create your account</h2>
 
-          <div *ngIf="error" class="text-red-600 text-sm text-center">
-            {{ error }}
-          </div>
-
+        <form class="mt-6 space-y-4" (ngSubmit)="onSubmit()">
           <div>
-            <lib-button type="submit" class="w-full">
-              Register
-            </lib-button>
+            <label for="username" class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-200">Username</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              required
+              [(ngModel)]="username"
+              class="w-full px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              placeholder="Username"
+            >
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-200">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              [(ngModel)]="email"
+              class="w-full px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              placeholder="Email address"
+            >
+          </div>
+          <div>
+            <label for="password" class="block text-sm font-medium mb-1.5 text-slate-700 dark:text-slate-200">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              [(ngModel)]="password"
+              class="w-full px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              placeholder="Password"
+            >
           </div>
 
-          <div class="text-center">
-            <a routerLink="/login" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-              Already have an account? Sign in
-            </a>
+          <div *ngIf="error" class="text-red-600 text-sm">{{ error }}</div>
+
+          <div class="pt-1 [&>button]:!w-full [&>button]:!rounded-xl [&>button]:!py-2.5 [&>button]:!font-medium">
+            <lib-button type="submit">Register</lib-button>
+          </div>
+
+          <div class="text-center pt-1">
+            <a routerLink="/login" class="text-sm rss-link hover:underline">Already have an account? Sign in</a>
           </div>
         </form>
-      </div>
+      </section>
     </div>
   `
 })
