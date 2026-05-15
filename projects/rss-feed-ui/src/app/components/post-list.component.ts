@@ -28,16 +28,15 @@ import { ButtonComponent } from 'shared-ui';
         <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Run "Fetch Latest" to refresh your feed.</p>
       </div>
 
-      <section *ngIf="posts().length > 0" class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-        <article *ngFor="let post of posts()" class="rss-card p-5 sm:p-6 flex flex-col justify-between">
+      <section *ngIf="posts().length > 0" class="md:hidden space-y-4">
+        <article *ngFor="let post of posts()" class="rss-card p-5 flex flex-col justify-between">
           <div>
-            <div class="flex flex-wrap items-center gap-2 mb-4">
-              <span class="rss-tag rounded-full px-2.5 py-1 text-xs">{{ post.dateAdded | date:'MMM d, y' }}</span>
-              <span class="rss-tag rounded-full px-2.5 py-1 text-xs">{{ post.blogName }}</span>
-              <span class="rss-tag rounded-full px-2.5 py-1 text-xs">#{{ post.id }}</span>
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span class="rss-tag rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider">{{ post.dateAdded | date:'MMM d, y' }}</span>
+              <span class="rss-tag rounded-full px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider">{{ post.blogName }}</span>
             </div>
 
-            <a [href]="post.url" target="_blank" class="rss-link text-lg sm:text-xl leading-snug font-semibold break-words line-clamp-3">
+            <a [href]="post.url" target="_blank" class="rss-link text-lg leading-tight font-semibold break-words line-clamp-3">
               {{ post.name }}
             </a>
           </div>
@@ -48,6 +47,43 @@ import { ButtonComponent } from 'shared-ui';
             </lib-button>
           </div>
         </article>
+      </section>
+
+      <section *ngIf="posts().length > 0" class="rss-panel overflow-hidden hidden md:block">
+        <div class="overflow-x-auto">
+          <table class="rss-table">
+            <thead>
+              <tr>
+                <th class="w-32">Date</th>
+                <th class="w-48">Blog</th>
+                <th>Title</th>
+                <th class="w-40 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let post of posts()">
+                <td class="whitespace-nowrap text-slate-500 dark:text-slate-400 font-medium">
+                  {{ post.dateAdded | date:'MMM d, y' }}
+                </td>
+                <td class="whitespace-nowrap font-semibold text-slate-700 dark:text-slate-300">
+                  {{ post.blogName }}
+                </td>
+                <td>
+                  <a [href]="post.url" target="_blank" class="rss-link font-medium line-clamp-2 leading-snug">
+                    {{ post.name }}
+                  </a>
+                </td>
+                <td class="text-right">
+                  <div class="inline-flex [&>button]:!rounded-lg [&>button]:!text-xs [&>button]:!px-3 [&>button]:!py-1.5">
+                    <lib-button (clicked)="markAsRead(post.id)" variant="secondary">
+                      Mark as read
+                    </lib-button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
     </div>
   `

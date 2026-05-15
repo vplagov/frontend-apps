@@ -84,6 +84,46 @@ body {
   border: 1px solid var(--line);
 }
 
+.rss-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    background: color-mix(in srgb, var(--surface-2) 80%, transparent);
+    border-bottom: 1px solid var(--line);
+
+    th {
+      padding: 0.75rem 1.5rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-2);
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent);
+      transition: background-color 150ms var(--ease-out);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--surface-2) 40%, transparent);
+      }
+    }
+
+    td {
+      padding: 1rem 1.5rem;
+      font-size: 0.875rem;
+    }
+  }
+}
+
 .rss-link {
   color: var(--brand);
 }

@@ -23,41 +23,41 @@ import { ButtonComponent } from 'shared-ui';
         </div>
       </section>
 
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-4 md:hidden">
-        <article *ngFor="let blog of blogs()" class="rss-card p-4">
-          <h3 class="font-semibold text-base mb-2 break-words">{{ blog.name }}</h3>
-          <a [href]="blog.feedUrl" target="_blank" class="rss-link text-sm break-all">{{ blog.feedUrl }}</a>
+      <section class="grid grid-cols-1 gap-4 md:hidden">
+        <article *ngFor="let blog of blogs()" class="rss-card p-5">
+          <h3 class="font-semibold text-lg mb-1 break-words">{{ blog.name }}</h3>
+          <a [href]="blog.feedUrl" target="_blank" class="rss-link text-sm break-all mb-4 block">{{ blog.feedUrl }}</a>
           <div class="flex items-center gap-2 mt-4">
-            <div class="[&>button]:!rounded-lg [&>button]:!text-xs [&>button]:!px-3 [&>button]:!py-1.5">
+            <div class="flex-1 [&>button]:!w-full [&>button]:!rounded-xl [&>button]:!py-2 [&>button]:!text-sm">
               <lib-button (clicked)="fetchLatest(blog.id)" variant="secondary">Fetch</lib-button>
             </div>
-            <button (click)="unsubscribe(blog.id)" class="text-sm text-red-600 dark:text-red-400 hover:underline">Unsubscribe</button>
+            <button (click)="unsubscribe(blog.id)" class="px-4 py-2 text-sm text-red-600 dark:text-red-400 font-medium hover:underline">Unsubscribe</button>
           </div>
         </article>
       </section>
 
       <section class="rss-panel overflow-hidden hidden md:block">
         <div class="overflow-x-auto">
-          <table class="min-w-full">
-            <thead class="bg-slate-50/80 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700">
+          <table class="rss-table">
+            <thead>
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">Name</th>
-                <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">Feed URL</th>
-                <th class="px-6 py-3 text-right text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">Actions</th>
+                <th>Name</th>
+                <th>Feed URL</th>
+                <th class="w-48 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let blog of blogs()" class="border-b border-slate-200/80 dark:border-slate-700/80 last:border-b-0">
-                <td class="px-6 py-4 text-sm font-medium">{{ blog.name }}</td>
-                <td class="px-6 py-4 text-sm">
+              <tr *ngFor="let blog of blogs()">
+                <td class="font-semibold text-slate-700 dark:text-slate-300">{{ blog.name }}</td>
+                <td>
                   <a [href]="blog.feedUrl" target="_blank" class="rss-link">{{ blog.feedUrl }}</a>
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="text-right">
                   <div class="inline-flex items-center gap-3">
                     <div class="[&>button]:!rounded-lg [&>button]:!text-xs [&>button]:!px-3 [&>button]:!py-1.5">
                       <lib-button (clicked)="fetchLatest(blog.id)" variant="secondary">Fetch</lib-button>
                     </div>
-                    <button (click)="unsubscribe(blog.id)" class="text-sm text-red-600 dark:text-red-400 hover:underline">Unsubscribe</button>
+                    <button (click)="unsubscribe(blog.id)" class="text-sm font-medium text-red-600 dark:text-red-400 hover:underline">Unsubscribe</button>
                   </div>
                 </td>
               </tr>
