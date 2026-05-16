@@ -48,7 +48,7 @@ describe('RssService', () => {
     };
 
     service.updateBlog(7, request).subscribe(response => {
-      expect(response).toBeUndefined();
+      expect(response).toBeNull();
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/blogs/7`);
