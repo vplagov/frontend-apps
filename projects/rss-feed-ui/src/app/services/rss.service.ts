@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { RssPostResponse, RssBlogResponse, RssNewBlogRequest } from 'shared-ui';
+import { RssPostResponse, RssBlogResponse, RssNewBlogRequest, RssUpdateBlogRequest } from 'shared-ui';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +35,10 @@ export class RssService {
 
   addBlog(request: RssNewBlogRequest): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/blogs`, request);
+  }
+
+  updateBlog(id: number, request: RssUpdateBlogRequest): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/blogs/${id}`, request);
   }
 
   unsubscribeFromBlog(id: number): Observable<void> {

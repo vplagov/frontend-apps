@@ -38,4 +38,22 @@ describe('RssService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(dummyPosts);
   });
+
+  it('should update a blog', () => {
+    const request = {
+      name: 'Updated Blog',
+      feedUrl: 'https://example.com/feed.xml',
+      isSubscribed: true,
+      useAiFiltering: false
+    };
+
+    service.updateBlog(7, request).subscribe(response => {
+      expect(response).toBeUndefined();
+    });
+
+    const req = httpMock.expectOne(`${environment.apiUrl}/blogs/7`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual(request);
+    req.flush(null);
+  });
 });

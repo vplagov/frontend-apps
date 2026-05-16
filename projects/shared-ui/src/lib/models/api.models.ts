@@ -74,9 +74,17 @@ export interface RssBlogResponse {
   name: string;
   feedUrl: string;
   isSubscribed: boolean;
+  useAiFiltering: boolean;
 }
 
 export interface RssNewBlogRequest {
   name: string;
   feedUrl: string;
+}
+
+export interface RssUpdateBlogRequest {
+  name: string;
+  feedUrl: string;
+  isSubscribed: boolean;
+  useAiFiltering: boolean;
 }
