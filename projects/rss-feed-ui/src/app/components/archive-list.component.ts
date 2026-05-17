@@ -73,8 +73,8 @@ import { RssPostResponse } from 'shared-ui';
                 <th class="w-40">Date read</th>
                 <th class="w-48">Blog</th>
                 <th>Post</th>
-                <th class="w-32">ai_ignored</th>
-                <th>ai reason</th>
+                <th class="w-32 whitespace-nowrap">ai ignored</th>
+                <th class="w-60 whitespace-nowrap">ai reason</th>
               </tr>
             </thead>
             <tbody>
