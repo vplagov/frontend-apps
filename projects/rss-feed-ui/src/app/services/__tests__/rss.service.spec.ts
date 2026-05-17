@@ -26,7 +26,7 @@ describe('RssService', () => {
 
   it('should fetch unread posts', () => {
     const dummyPosts = [
-      { id: 1, blogId: 1, blogName: 'Blog 1', name: 'Post 1', url: 'url1', isRead: false, dateAdded: '2023-01-01T00:00:00' }
+      { id: 1, blogId: 1, blogName: 'Blog 1', name: 'Post 1', url: 'url1', isRead: false, isIgnored: false, aiReason: null, dateAdded: '2023-01-01T00:00:00', dateRead: null }
     ];
 
     service.getUnreadPosts().subscribe(posts => {
@@ -35,6 +35,32 @@ describe('RssService', () => {
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/posts`);
+    expect(req.request.method).toBe('GET');
+    req.flush(dummyPosts);
+  });
+
+  it('should fetch archived posts', () => {
+    const dummyPosts = [
+      {
+        id: 1,
+        blogId: 1,
+        blogName: 'Blog 1',
+        name: 'Archived Post',
+        url: 'url1',
+        isRead: true,
+        isIgnored: true,
+        aiReason: 'Ignored by AI',
+        dateAdded: '2023-01-01T00:00:00',
+        dateRead: '2023-01-02T00:00:00'
+      }
+    ];
+
+    service.getArchivedPosts().subscribe(posts => {
+      expect(posts.length).toBe(1);
+      expect(posts).toEqual(dummyPosts);
+    });
+
+    const req = httpMock.expectOne(`${environment.apiUrl}/posts/archive`);
     expect(req.request.method).toBe('GET');
     req.flush(dummyPosts);
   });

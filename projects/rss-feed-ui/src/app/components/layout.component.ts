@@ -30,6 +30,13 @@ import { ButtonComponent } from 'shared-ui';
                 >
                   Blogs
                 </a>
+                <a
+                  routerLink="/archive"
+                  routerLinkActive="bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm"
+                  class="px-3 py-1.5 rounded-full text-sm text-slate-600 dark:text-slate-300 transition-colors"
+                >
+                  Archive
+                </a>
               </div>
             </div>
             <div class="flex items-center gap-3 shrink-0">

@@ -16,6 +16,10 @@ export class RssService {
     return this.http.get<RssPostResponse[]>(`${this.apiUrl}/posts`);
   }
 
+  getArchivedPosts(): Observable<RssPostResponse[]> {
+    return this.http.get<RssPostResponse[]>(`${this.apiUrl}/posts/archive`);
+  }
+
   markPostAsRead(id: number): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/posts/${id}/mark-as-read`, {});
   }

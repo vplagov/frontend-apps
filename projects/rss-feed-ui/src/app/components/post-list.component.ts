@@ -97,7 +97,9 @@ export class PostListComponent implements OnInit {
   }
 
   loadPosts(): void {
-    this.rssService.getUnreadPosts().subscribe(posts => this.posts.set(posts));
+    this.rssService.getUnreadPosts().subscribe(posts => {
+      this.posts.set(posts.filter(post => !post.isIgnored));
+    });
   }
 
   markAsRead(id: number): void {

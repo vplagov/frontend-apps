@@ -66,7 +66,10 @@ export interface RssPostResponse {
   name: string;
   url: string;
   isRead: boolean;
+  isIgnored: boolean;
+  aiReason: string | null;
   dateAdded: string;
+  dateRead: string | null;
 }
 
 export interface RssBlogResponse {
