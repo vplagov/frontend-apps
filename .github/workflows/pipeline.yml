@@ -15,8 +15,8 @@ jobs:
       fuel_tracker_ui: ${{ steps.filter.outputs.fuel_tracker_ui }}
       rss_feed_ui: ${{ steps.filter.outputs.rss_feed_ui }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
@@ -31,10 +31,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Lint All
@@ -46,10 +46,10 @@ jobs:
     if: needs.changes.outputs.fuel_tracker_ui == 'true' || needs.changes.outputs.shared_ui == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Run Fuel Tracker UI Tests
@@ -61,10 +61,10 @@ jobs:
     if: needs.changes.outputs.rss_feed_ui == 'true' || needs.changes.outputs.shared_ui == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Run RSS Feed UI Tests
@@ -76,10 +76,10 @@ jobs:
     if: needs.changes.outputs.shared_ui == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Run Shared UI Tests
@@ -91,10 +91,10 @@ jobs:
     if: ${{ needs.changes.outputs.shared_ui == 'true' && (needs.test-shared.result == 'success' || needs.test-shared.result == 'skipped') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Build Shared UI
@@ -111,10 +111,10 @@ jobs:
       (needs.test-fuel-tracker.result == 'success' || needs.test-fuel-tracker.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Build Shared UI (Prerequisite)
@@ -133,10 +133,10 @@ jobs:
       (needs.test-rss-feed.result == 'success' || needs.test-rss-feed.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
       - run: npm ci
       - name: Build Shared UI (Prerequisite)
