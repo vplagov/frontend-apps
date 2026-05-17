@@ -41,10 +41,19 @@ import { ButtonComponent } from 'shared-ui';
             </a>
           </div>
 
-          <div class="mt-5 [&>button]:!w-full [&>button]:!rounded-xl [&>button]:!py-2.5 [&>button]:!font-medium">
-            <lib-button (clicked)="markAsRead(post.id)">
-              Mark as read
-            </lib-button>
+          <div class="mt-5 flex justify-end">
+            <button
+              type="button"
+              (click)="markAsRead(post.id)"
+              aria-label="Mark as read"
+              title="Mark as read"
+              class="inline-flex items-center justify-center rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 transition-colors hover:bg-emerald-100 dark:hover:bg-emerald-950 px-3 py-2"
+            >
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75" />
+                <circle cx="12" cy="12" r="9" />
+              </svg>
+            </button>
           </div>
         </article>
       </section>
@@ -74,11 +83,18 @@ import { ButtonComponent } from 'shared-ui';
                   </a>
                 </td>
                 <td class="text-right">
-                  <div class="inline-flex [&>button]:!rounded-lg [&>button]:!text-xs [&>button]:!px-3 [&>button]:!py-1.5">
-                    <lib-button (clicked)="markAsRead(post.id)" variant="secondary">
-                      Mark as read
-                    </lib-button>
-                  </div>
+                  <button
+                    type="button"
+                    (click)="markAsRead(post.id)"
+                    aria-label="Mark as read"
+                    title="Mark as read"
+                    class="inline-flex items-center justify-center rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 transition-colors hover:bg-emerald-100 dark:hover:bg-emerald-950 px-3 py-2"
+                  >
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75" />
+                      <circle cx="12" cy="12" r="9" />
+                    </svg>
+                  </button>
                 </td>
               </tr>
             </tbody>

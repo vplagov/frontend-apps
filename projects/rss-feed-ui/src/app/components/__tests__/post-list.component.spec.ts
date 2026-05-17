@@ -52,4 +52,19 @@ describe('PostListComponent', () => {
     expect(rssService.markPostAsRead).toHaveBeenCalledWith(1);
     expect(component.posts().length).toBe(0);
   });
+
+  it('should render icon-only mark as read action', () => {
+    const dummyPosts = [
+      { id: 1, blogId: 1, blogName: 'Blog 1', name: 'Post 1', url: 'url1', isRead: false, isIgnored: false, aiReason: null, dateAdded: '2023-01-01T00:00:00', dateRead: null }
+    ];
+    spyOn(rssService, 'getUnreadPosts').and.returnValue(of(dummyPosts));
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button[aria-label="Mark as read"]');
+    expect(button).toBeTruthy();
+    expect(button.textContent.trim()).toBe('');
+    expect(button.querySelector('svg')).toBeTruthy();
+  });
 });
